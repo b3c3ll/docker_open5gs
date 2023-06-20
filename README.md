@@ -5,7 +5,7 @@ Docker files to build and run open5gs in a docker
 
 Docker host machine
 
-- Ubuntu 18.04 and 20.04
+- Ubuntu 18.04 and 20.04 or 22.04
 
 ## Build and Execution Instructions
 
@@ -47,6 +47,8 @@ MNC
 TEST_NETWORK --> Change this only if it clashes with the internal network at your home/office
 DOCKER_HOST_IP --> This is the IP address of the host running your docker setup
 SGWU_ADVERTISE_IP --> Change this to value of DOCKER_HOST_IP
+UE_IPV4_INTERNET --> Change this to your desired (Not conflicted) UE network ip range for internet APN
+UE_IPV4_IMS --> Change this to your desired (Not conflicted) UE network ip range for ims APN
 ```
 
 ## Register a UE information

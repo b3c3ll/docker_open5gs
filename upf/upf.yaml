@@ -10,9 +10,9 @@ upf:
       - addr: UPF_IP
         advertise: UPF_ADVERTISE_IP
     subnet:
-      - addr: 10.45.0.1/24
-        dnn: internet
+      - addr: UE_IPV4_INTERNET
         dev: ogstun
+        dnn: internet
       - addr: 2001:230:cafe::1/48
         dnn: internet
         dev: ogstun
@@ -22,7 +22,7 @@ upf:
       - addr: 2001:230:dafe::1/48
         dnn: xcap
         dev: ogstun
-      - addr: 10.46.0.1/24
+      - addr: UE_IPV4_IMS
         dnn: ims
         dev: ogstun2
       - addr: 2001:230:eafe::1/48

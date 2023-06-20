@@ -19,7 +19,7 @@ smf:
     pfcp:
       - addr: SMF_IP
     subnet:
-      - addr: 10.45.0.1/24
+      - addr: UE_IPV4_INTERNET
         dnn: internet
         dev: ogstun
       - addr: 2001:230:cafe::1/48
@@ -31,7 +31,7 @@ smf:
       - addr: 2001:230:dafe::1/48
         dnn: xcap
         dev: ogstun
-      - addr: 10.46.0.1/24
+      - addr: UE_IPV4_IMS
         dnn: ims
         dev: ogstun2
       - addr: 2001:230:eafe::1/48
