@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # BSD 2-Clause License
 
 # Copyright (c) 2020, Supreeth Herle
@@ -24,16 +26,18 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-FROM ubuntu:focal
+# Sync docker time
+#ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-ENV DEBIAN_FRONTEND=noninteractive
+export GRAFANA_WORK_DIR=/usr/share/grafana
 
-RUN apt-get update && \
-    apt-get install -y wget gnupg && \
-    wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | apt-key add - && \
-    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-6.0.list && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends mongodb-org && \
-    apt-get autoremove -y && apt-get autoclean
+cd $GRAFANA_WORK_DIR 
 
-CMD /mnt/mongo/mongo_init.sh
+cp /mnt/grafana/prometheus_open5gs.yml ./conf/provisioning/datasources
+cp /mnt/grafana/open5gs_dashboard.yml ./conf/provisioning/dashboards
+mkdir -p /var/lib/grafana/dashboards
+cp /mnt/grafana/open5gs_dashboard.json /var/lib/grafana/dashboards
+
+sed -i 's|METRICS_IP|'$METRICS_IP'|g' ./conf/provisioning/datasources/prometheus_open5gs.yml
+
+./bin/grafana server -homepath $GRAFANA_WORK_DIR

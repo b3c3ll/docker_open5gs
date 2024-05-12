@@ -1,14 +1,14 @@
 version: '3'
 services:
   mongo:
-    build: ./mongo
-    image: docker_mongo
+    image: mongo:6.0
     container_name: mongo
+    command: --bind_ip 0.0.0.0
     env_file:
       - .env
     volumes:
-      - ./mongo:/mnt/mongo
-      - mongodbdata:/var/lib/mongodb
+      - mongodbdata:/data/db
+      - mongodbdata:/data/configdb
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
@@ -31,9 +31,9 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     expose:
-      - "3000/tcp"
+      - "9999/tcp"
     ports:
-      - "3000:3000/tcp"
+      - "9999:9999/tcp"
     networks:
       default:
         ipv4_address: ${WEBUI_IP}
@@ -143,6 +143,7 @@ services:
       - .env
     environment:
       - COMPONENT_NAME=smf-1
+      - DEPLOY_MODE=5G
     volumes:
       - ./smf:/mnt/smf
       - ./log:/open5gs/install/var/log/open5gs
@@ -303,6 +304,23 @@ services:
     networks:
       default:
         ipv4_address: ${METRICS_IP}
+  grafana:
+    build: ./grafana
+    image: docker_grafana
+    container_name: grafana
+    env_file:
+      - .env
+    volumes:
+      - ./grafana:/mnt/grafana
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "3000/tcp"
+    ports:
+      - "3000:3000/tcp"
+    networks:
+      default:
+        ipv4_address: ${GRAFANA_IP}
 networks:
   default:
     ipam:
